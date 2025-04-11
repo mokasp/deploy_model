@@ -45,7 +45,7 @@ def palette():
                 _, buffer = cv2.imencode('.jpg', img)
                 img_base64 = base64.b64encode(buffer).decode('utf-8')
 
-                return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{type(img_base64)}" width="300">'
+                return f'<h2>Image received!</h2><h2>{type(img_base64)}</h2><img src="data:image/jpeg;base64,{img_base64}" width="300">'
             else:
                 return 'Error decoding image'
         else:
