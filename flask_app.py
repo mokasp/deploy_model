@@ -46,7 +46,7 @@ def palette():
                 img_base64 = base64.b64encode(buffer).decode('utf-8')
                 img_type = type(img_base64)
 
-                return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{img_base64}" width="300"><h3>{img_type}</h3>'
+                return f'<h2>{img_type}</h2><img src="data:image/jpeg;base64,{img_base64}" width="300">'
             else:
                 return 'Error decoding image'
         else:
