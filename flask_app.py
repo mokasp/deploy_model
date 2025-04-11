@@ -31,7 +31,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/palette', methods=['GET', 'POST'])
-def index():
+def palette():
     if request.method == 'POST':
         data_url = request.form['image']  # base64 string
 
