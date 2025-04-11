@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Webcam to Flask</title>
+</head>
+<body>
+  <h1>Webcam Capture</h1>
+
+  <video id="video" width="400" autoplay></video>
+  <br>
+  <button id="snap">Capture Frame</button>
+  <canvas id="canvas" width="400" height="300" style="display: none;"></canvas>
+
+  <form id="upload-form" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="image" id="image-input">
+    <button type="submit">Send to Server</button>
+  </form>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const snap = document.getElementById('snap');
+    const imageInput = document.getElementById('image-input');
+
+    // 1. Ask for webcam permission
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
+        video.srcObject = stream;
+      })
+      .catch((err) => {
+        console.error("Error accessing webcam:", err);
+      });
+
+    // 2. Capture frame on button click
+    snap.addEventListener("click", () => {
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataURL = canvas.toDataURL('image/jpeg');
+      imageInput.value = dataURL; // Store image as base64 for backend
+    });
+  </script>
+</body>
+</html>

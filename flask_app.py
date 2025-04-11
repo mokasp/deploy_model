@@ -1,0 +1,35 @@
+import os
+import base64
+import cv2
+import numpy as np
+from flask import Flask, request, render_template
+from datetime import datetime as dt
+import tensorflow as tf
+
+UPLOAD_FOLDER = '/home/unworldly/mysite/static/uploads/'
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        data_url = request.form['image']  # base64 string
+
+        if data_url.startswith('data:image'):
+            header, encoded = data_url.split(",", 1)
+            image_data = base64.b64decode(encoded)
+            np_arr = np.frombuffer(image_data, np.uint8)
+            img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+            if img is not None:
+                dt_now = dt.now().strftime("%Y%m%d%H%M%S%f")
+                filename = f'img_{dt_now}.jpg'
+                path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+                cv2.imwrite(path, img)
+                return f'<h2>Image saved!</h2><img src="/static/uploads/{filename}" width="300">'
+            else:
+                return 'Error decoding image'
+        else:
+            return 'Invalid image data'
+    return render_template('index.html')
