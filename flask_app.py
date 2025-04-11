@@ -22,12 +22,9 @@ def index():
             img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
             if img is not None:
-                dt_now = dt.now().strftime("%Y%m%d%H%M%S%f")
-                filename = f'img_{dt_now}.jpg'
-                path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-                cv2.imwrite(path, img)
-                return f'<h2>Image saved!</h2><img src="/static/uploads/{filename}" width="300">'
+                _, buffer = cv2.imencode('.jpg', img)
+                img_base64 = base64.b64encode(buffer).decode('utf-8')
+                return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{img_base64}" width="300">'
             else:
                 return 'Error decoding image'
         else:
