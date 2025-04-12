@@ -50,7 +50,7 @@ def palette():
                 img_type = str(type(img_base64))
                 logging.debug("🎯 /palette route was hit!")
                 logging.debug(f"📸 Image data starts with: {request.form['image'][:30]}")
-                logging.debug(f"🧠 Decoded image shape: {img_base64}")
+                logging.debug(f"🧠 Decoded image shape: {img}")
                 logging.debug(f"🧠 Decoded image type: {img_type}")
 
                 return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{img_base64}" width="300">'
