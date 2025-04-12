@@ -14,8 +14,6 @@ def display_colors(image):
 
     img_array = make_grid(X_rgb)
     output = output_image(y_rgb)
-    print(img_array)
-    print(img_array.shape)
 
     return img_array, output
 
