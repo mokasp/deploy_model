@@ -19,4 +19,5 @@ def make_grid(rgb_values):
     w, h = fig.canvas.get_width_height()
     img_array = np.frombuffer(fig.canvas.buffer_rgba(), dtype=np.uint8)
     img_array = img_array.reshape((h, w, 4))[:, :, :3]
+    img_array = img_array[:, :, [2, 1, 0]]
     return img_array
