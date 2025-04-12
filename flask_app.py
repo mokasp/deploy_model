@@ -6,6 +6,7 @@ from flask import Flask, request, render_template
 from datetime import datetime as dt
 import tensorflow as tf
 import logging
+from display_colors import display_colors
 
 
 app = Flask(__name__)
@@ -54,7 +55,14 @@ def palette():
                 logging.debug(f"🧠 Decoded image shape: {img.shape}")
                 logging.debug(f"🧠 Decoded image type: {img_type}")
 
-                return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{img_base64}" width="300">'
+
+                img_array, output = display_colors(img)
+                _, buffer = cv2.imencode('.jpg', img_array)
+                img_array64 = base64.b64encode(buffer).decode('utf-8')
+                _, buffer = cv2.imencode('.jpg', output)
+                output64 = base64.b64encode(buffer).decode('utf-8')
+
+                return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{img_base64}" width="300"><img src="data:image/jpeg;base64,{img_array64}" width="300"><img src="data:image/jpeg;base64,{output64}" width="300">'
             else:
                 return 'Error decoding image'
         else:
