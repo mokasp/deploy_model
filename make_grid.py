@@ -17,6 +17,6 @@ def make_grid(rgb_values):
         ax.set_yticks([])
     fig.canvas.draw()
     w, h = fig.canvas.get_width_height()
-    img_array = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
+    img_array = np.frombuffer(fig.canvas.buffer_rgba(), dtype=np.uint8)
     img_array = img_array.reshape((h, w, 3))
     return img_array
