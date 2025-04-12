@@ -5,8 +5,11 @@ import numpy as np
 from flask import Flask, request, render_template
 from datetime import datetime as dt
 import tensorflow as tf
+import logging
+
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -45,9 +48,12 @@ def palette():
                 _, buffer = cv2.imencode('.jpg', img)
                 img_base64 = base64.b64encode(buffer).decode('utf-8')
                 img_type = str(type(img_base64))
-                print(img_type)
+                logging.debug("🎯 /palette route was hit!")
+                logging.debug(f"📸 Image data starts with: {request.form['image'][:30]}")
+                logging.debug(f"🧠 Decoded image shape: {img_base64.shape}")
+                logging.debug(f"🧠 Decoded image type: {img_type}")
 
-                return f'<p>Type of image variable: {img_type}</p>'
+                return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{img_base64}" width="300">'
             else:
                 return 'Error decoding image'
         else:
