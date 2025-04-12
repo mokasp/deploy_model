@@ -45,6 +45,7 @@ def palette():
                 _, buffer = cv2.imencode('.jpg', img)
                 img_base64 = base64.b64encode(buffer).decode('utf-8')
                 img_type = str(type(img_base64))
+                print(img_type)
 
                 return f'<p>Type of image variable: {img_type}</p>'
             else:
