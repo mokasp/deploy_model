@@ -92,10 +92,11 @@ def predict():
                 prediction = model_input(img, model)
                 logging.debug(f"🧠 prediction: {prediction}")
                 output = display_prediction(prediction)
-                logging.debug(f"🧠 output: {output}")
+                _, buffer = cv2.imencode('.jpg', output)
+                output64 = base64.b64encode(buffer).decode('utf-8')
 
 
-                return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{img_base64}" width="300"><img src="data:image/jpeg;base64,{output}" width="300">'
+                return f'<h2>Image received!</h2><img src="data:image/jpeg;base64,{img_base64}" width="300"><img src="data:image/jpeg;base64,{output64}" width="300">'
             else:
                 return 'Error decoding image'
         else:
