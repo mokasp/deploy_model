@@ -72,7 +72,7 @@ def palette():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
-    model = tf.keras.models.load_model('/model/test_model_00.keras')
+    model = tf.keras.models.load_model('model/test_model_00.keras')
     if request.method == 'POST':
         data_url = request.form['image']  # base64 string
 
