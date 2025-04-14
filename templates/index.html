@@ -21,55 +21,39 @@
     const canvas = document.getElementById('canvas');
     const snap = document.getElementById('snap');
     const imageInput = document.getElementById('image-input');
-    const form = document.getElementById('upload-form');
   
-
-    navigator.mediaDevices.getUserMedia({
+    const constraints = {
+      audio: false,
       video: {
-        width: { ideal: 1920 },
-        height: { ideal: 1080 }
+        width: { ideal: 4096 },
+        height: { ideal: 2160 }
       }
-    })
-    .then((stream) => {
-      video.srcObject = stream;
-
-      video.addEventListener('loadedmetadata', () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-      });
-    })
-    .catch((err) => {
-      console.error("Error accessing webcam:", err);
-    });
+    };
   
-
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then((stream) => {
+        video.srcObject = stream;
+  
+        // Wait for video metadata to be loaded
+        video.onloadedmetadata = () => {
+          console.log(`Actual resolution: ${video.videoWidth}x${video.videoHeight}`);
+  
+          // Optionally resize canvas to match video
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+        };
+      })
+      .catch((err) => {
+        console.error("Error accessing webcam:", err);
+      });
+  
+    // Capture frame on button click
     snap.addEventListener("click", () => {
       const context = canvas.getContext('2d');
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  
-
       const dataURL = canvas.toDataURL('image/jpeg');
       imageInput.value = dataURL;
     });
-  
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-  
-      const formData = new FormData();
-      formData.append("image", imageInput.value);
-  
-      fetch('/palette', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.text())
-      .then(data => {
-        console.log("Server response:", data);
-      })
-      .catch(err => console.error("Upload failed:", err));
-    });
-  </script>
-  
+  </script>  
 </body>
 </html>
