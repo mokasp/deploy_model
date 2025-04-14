@@ -39,9 +39,10 @@
         video.onloadedmetadata = () => {
           console.log(`Actual resolution: ${video.videoWidth}x${video.videoHeight}`);
   
-          // Optionally resize canvas to match video
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
+          // resize canvas to match video
+          const scale = 0.25;
+          canvas.width = video.videoWidth * scale;
+          canvas.height = video.videoHeight * scale;
         };
       })
       .catch((err) => {
