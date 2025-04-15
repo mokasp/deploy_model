@@ -17,13 +17,13 @@
 
   {% if img_data %}
     <h2>image captured</h2>
-    <img src="{{ img_data }}" width="300" alt="captured image">
+    <img src="data:image/jpeg;base64,{{ img_data }}" width="300" alt="captured image">
 
     <h2>prediction result:</h2>
     <p>{{ prediction }}</p>
 
     <h2>processed image:</h2>
-    <img src="data:image/jpeg;base64, {{ output_img }}" width="300" alt="processed image">
+    <img src="data:image/jpeg;base64,{{ output_img }}" width="300" alt="processed image">
   {% endif %}
 
   <script>
