@@ -11,7 +11,7 @@ from prepare_input import display_colors, model_input, display_prediction
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
-model = tf.keras.models.load_model('model/test_model_00.keras')
+model = tf.keras.models.load_model('model/test_model_00.keras', compile=False)
 
 
 @app.route('/', methods=['GET', 'POST'])
