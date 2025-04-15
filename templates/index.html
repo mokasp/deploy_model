@@ -63,7 +63,8 @@
     snap.addEventListener("click", () => {
       const context = canvas.getContext('2d');
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const dataURL = canvas.toDataURL('image/jpeg');
+      const dataURL = canvas.toDataURL('image/jpeg', 0.5);
+      console.log(imageData.length);
       imageInput.value = dataURL;
       document.getElementById('upload-form').submit();
     });
