@@ -8,11 +8,11 @@
 
   <video id="video" width="400" autoplay></video>
   <br>
-  <button id="snap">Capture Frame</button>
-  <canvas id="canvas" width="400" height="300" style="display: none;"></canvas>
-
   <form id="upload-form" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="image" id="image-input">
+    <button type="button" id="capture" data-action="/">Capture Frame</button>
+    <button type="button" id="palette" data-action="/palette">Extract Palette</button>
+    <button type="button" id="predict" data-action="/predict">Predict</button>
   </form>
 
   {% if img_data %}
@@ -29,8 +29,8 @@
   <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
-    const snap = document.getElementById('snap');
     const imageInput = document.getElementById('image-input');
+    const form = document.getElementById('upload-form');
   
     const constraints = {
       audio: false,
@@ -47,8 +47,6 @@
   
         // Wait for video metadata to be loaded
         video.onloadedmetadata = () => {
-          console.log(`Actual resolution: ${video.videoWidth}x${video.videoHeight}`);
-  
           // resize canvas to match video
           const scale = 0.25;
           canvas.width = video.videoWidth * scale;
@@ -58,15 +56,26 @@
       .catch((err) => {
         console.error("Error accessing webcam:", err);
       });
-  
-    // Capture frame on button click
-    snap.addEventListener("click", () => {
-      const context = canvas.getContext('2d');
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const dataURL = canvas.toDataURL('image/jpeg')
-      imageInput.value = dataURL;
-      document.getElementById('upload-form').submit();
-    });
+
+  function handleCaptureClick(event) {
+    const target = event.target;
+    const action = target.getAttribute('data-action');
+
+    if (!action) return;
+
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const dataURL = canvas.toDataURL('image/jpeg');
+    imageInput.value = dataURL;
+
+    form.action = action;
+    form.submit();
+  }
+
+  document.querySelectorAll('button[data-action]').forEach(button => {
+    button.addEventListener('click', handleCaptureClick);
+  });
   </script> 
 </body>
 </html>
