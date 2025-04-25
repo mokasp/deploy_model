@@ -36,8 +36,8 @@ def index():
 
 @app.route('/palette', methods=['GET', 'POST'])
 def palette():
-    model = tf.keras.models.load_model('model/test_model_00.keras', compile=False)
     if request.method == 'POST':
+        model = tf.keras.models.load_model('model/test_model_00.keras', compile=False)
         data_url = request.form['image']  # base64 string
 
         if data_url.startswith('data:image'):
@@ -83,6 +83,7 @@ def predict():
             img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
             if img is not None:
+                model = tf.keras.models.load_model('model/test_model_00.keras', compile=False)
                 _, buffer = cv2.imencode('.jpg', img)
                 img_base64 = base64.b64encode(buffer).decode('utf-8')
                 img_type = str(type(img_base64))
