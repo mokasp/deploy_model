@@ -8,6 +8,9 @@ import tensorflow as tf
 import logging
 from prepare_input import display_colors, model_input, display_prediction
 import gc
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
