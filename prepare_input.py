@@ -4,6 +4,8 @@ from prediction_input import load_data, normalize_vectors
 from lab_to_rgb import lab_to_rgb
 from make_grid import make_grid
 from output_image import output_image
+import logging
+
 
 def display_colors(image):
 
