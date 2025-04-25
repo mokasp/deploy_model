@@ -5,8 +5,8 @@ import numpy as np
 from flask import Flask, request, render_template
 from datetime import datetime as dt
 import logging
-from prepare_input import display_colors, model_input, display_prediction, predict_in_subprocess
-
+from prepare_input import display_colors, call_model_api, display_prediction
+from prediction_input import load_data
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -86,8 +86,9 @@ def predict():
                 img_type = str(type(img_base64))
                 logging.debug("🎯 /palette route was hit!")
                 logging.debug(f"📸 Image data starts with: {request.form['image'][:30]}")
-
-                prediction = predict_in_subprocess(img)
+                
+                X, _ = load_data(img)
+                prediction = call_model_api(img)
                 logging.debug(f"🧠 prediction: {prediction}")
                 output = display_prediction(prediction)
                 _, buffer = cv2.imencode('.jpg', output)
