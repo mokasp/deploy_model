@@ -11,7 +11,6 @@ from prepare_input import display_colors, model_input, display_prediction
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
-model = tf.keras.models.load_model('model/test_model_00.keras', compile=False)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -37,6 +36,7 @@ def index():
 
 @app.route('/palette', methods=['GET', 'POST'])
 def palette():
+    model = tf.keras.models.load_model('model/test_model_00.keras', compile=False)
     if request.method == 'POST':
         data_url = request.form['image']  # base64 string
 
