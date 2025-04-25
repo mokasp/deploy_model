@@ -19,7 +19,7 @@ def display_colors(image):
 
 def model_input(image, model):
     X, _ = load_data(image)
-
+    logging.debug(X)
     prediction = model.predict(X)
 
     return prediction
