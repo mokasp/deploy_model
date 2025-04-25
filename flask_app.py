@@ -7,7 +7,7 @@ from datetime import datetime as dt
 import tensorflow as tf
 import logging
 from prepare_input import display_colors, model_input, display_prediction
-
+import gc
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -91,6 +91,9 @@ def predict():
                 logging.debug(f"📸 Image data starts with: {request.form['image'][:30]}")
 
                 prediction = model_input(img, model)
+                del model
+                tf.keras.backend.clear_session()
+                gc.collect()
                 logging.debug(f"🧠 prediction: {prediction}")
                 output = display_prediction(prediction)
                 _, buffer = cv2.imencode('.jpg', output)
