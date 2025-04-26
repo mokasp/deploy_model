@@ -88,7 +88,7 @@ def predict():
                 logging.debug(f"📸 Image data starts with: {request.form['image'][:30]}")
                 
                 X, _ = load_data(img)
-                prediction = call_model_api(img)
+                prediction = call_model_api(X)
                 logging.debug(f"🧠 prediction: {prediction}")
                 output = display_prediction(prediction)
                 _, buffer = cv2.imencode('.jpg', output)
